@@ -417,7 +417,7 @@ def training_loop(
                 dist.print0(f"  Min time (excluded): {np.min(iter_times_array):.4f} seconds")
                 dist.print0(f"  Max time (excluded): {np.max(iter_times_array):.4f} seconds")
                 
-                measure_timing = False  # 측정 완료 후 비활성화
+                #measure_timing = False  # 측정 완료 후 비활성화
 
         m_iter_start_time = m_iter_end_time 
 
