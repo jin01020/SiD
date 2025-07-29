@@ -122,8 +122,8 @@ elif [ "$dataset" = 'imagenet64-cond' ]; then
     --init_sigma 2.5 \
     --batch 40 \
     --batch-gpu 10 \
-    --data '/data/datasets/imagenet-64x64.zip' \
-    --outdir '/data/image_experiment/sida-train-runs/imagenet64-cond' \
+    --data '/cvdata1/datasets/ImageNet/imagenet-64x64.zip' \
+    --outdir '/131_data/jin0/cfm_sid/imagenet' \
     --resume '/data/image_experiment/sida-train-runs/imagenet64-cond' \
     --nosubdir 0 \
     --arch adm \
