@@ -337,8 +337,19 @@ def training_loop(
             previous_best_pkl_filename = None
             previous_pt_filename = None
     
+
+    iter_cnt = 0
+    iter_times = []
+    measure_timing = True
     while True:        
         
+        iter_cnt += 1        
+    
+        # iteration 시작 시간 기록 (12번만 측정)
+        if measure_timing and iter_cnt <= 12:
+            iter_start_time = time.time()
+
+
         #Update fake score network f_psi
         # Accumulate gradients.
         fake_score_ddp.train().requires_grad_(True)
@@ -436,6 +447,33 @@ def training_loop(
             #p_ema.copy_(p_true_score.detach().lerp(p_ema, ema_beta))
             p_ema.lerp_(p_true_score.detach(), 1-ema_beta)
 
+
+        if measure_timing and iter_cnt <= 12:
+            iter_end_time = time.time()
+            iter_duration = iter_end_time - iter_start_time
+            iter_times.append(iter_duration)
+            
+            # 12번째 iteration 후 통계 계산
+            if iter_cnt == 12:
+                iter_times_array = np.array(iter_times)
+                # min, max 제거하고 나머지 10개의 평균과 표준편차 계산
+                sorted_times = np.sort(iter_times_array)
+                middle_times = sorted_times[1:-1]  # 첫번째(min)와 마지막(max) 제거
+                
+                mean_time = np.mean(middle_times)
+                std_time = np.std(middle_times)
+                
+                dist.print0(f"Iteration timing analysis (excluding min/max from 12 iterations):")
+                dist.print0(f"  Mean time per iteration: {mean_time:.4f} seconds")
+                dist.print0(f"  Standard deviation: {std_time:.4f} seconds")
+                dist.print0(f"  Min time (excluded): {np.min(iter_times_array):.4f} seconds")
+                dist.print0(f"  Max time (excluded): {np.max(iter_times_array):.4f} seconds")
+                
+                measure_timing = False  # 측정 완료 후 비활성화
+
+
+
+
         # Perform maintenance tasks once per tick.
         cur_nimg += batch_size
         done = (cur_nimg >= total_kimg * 1000)
@@ -468,7 +506,7 @@ def training_loop(
             dist.print0()
             dist.print0('Aborting...')
                         
-        if (snapshot_ticks is not None) and (done or cur_tick % snapshot_ticks == 0 or cur_tick in [10,20,30,40,50,60,70,80,90,100]):
+        if (snapshot_ticks is not None) and (done or cur_tick % snapshot_ticks == 0 or cur_tick in [50,60,70,80,90,100]) and (cur_tick > 0):
 
             dist.print0('Exporting sample images...')
             if dist.get_rank() == 0:
