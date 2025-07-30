@@ -120,8 +120,8 @@ elif [ "$dataset" = 'imagenet64-cond' ]; then
     --alpha 1 \
     --tmax 800 \
     --init_sigma 2.5 \
-    --batch 80 \
-    --batch-gpu 20 \
+    --batch 64 \
+    --batch-gpu 16 \
     --data '/cvdata1/datasets/ImageNet/imagenet-64x64.zip' \
     --outdir '/131_data/jin0/cfm_sid/imagenet' \
     --resume '/131_data/jin0/cfm_sid/imagenet' \
@@ -134,7 +134,7 @@ elif [ "$dataset" = 'imagenet64-cond' ]; then
     --dump 200 \
     --lr 4e-6 \
     --glr 4e-6 \
-    --fp16 1 \
+    --fp16 0 \
     --ls 1 \
     --lsg 100 \
     --lsd 1 \
