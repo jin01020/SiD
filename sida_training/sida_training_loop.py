@@ -341,6 +341,7 @@ def training_loop(
     iter_cnt = 0
     d_iter_times = []
     g_iter_times = []
+    iter_times = []
     measure_timing = True
     while True:        
         
@@ -480,6 +481,8 @@ def training_loop(
             iter_duration = iter_end_time - m_iter_start_time
             g_iter_times.append(iter_duration)
             
+            iter_duration = iter_end_time - iter_start_time
+            iter_times.append(iter_duration)
             # 12번째 iteration 후 통계 계산
             if iter_cnt == 12:
                 iter_times_array = np.array(g_iter_times)
@@ -496,6 +499,22 @@ def training_loop(
                 dist.print0(f"  Min time (excluded): {np.min(iter_times_array):.4f} seconds")
                 dist.print0(f"  Max time (excluded): {np.max(iter_times_array):.4f} seconds")
                 
+                iter_times_array = np.array(iter_times)
+                # min, max 제거하고 나머지 10개의 평균과 표준편차 계산
+                sorted_times = np.sort(iter_times_array)
+                middle_times = sorted_times[1:-1]  # 첫번째(min)와 마지막(max) 제거
+                
+                mean_time = np.mean(middle_times)
+                std_time = np.std(middle_times)
+                
+                dist.print0(f"Iteration timing analysis (excluding min/max from 12 iterations):")
+                dist.print0(f"  Mean time per iteration: {mean_time:.4f} seconds")
+                dist.print0(f"  Standard deviation: {std_time:.4f} seconds")
+                dist.print0(f"  Min time (excluded): {np.min(iter_times_array):.4f} seconds")
+                dist.print0(f"  Max time (excluded): {np.max(iter_times_array):.4f} seconds")
+                
+
+
                 measure_timing = False  # 측정 완료 후 비활성화
 
 
