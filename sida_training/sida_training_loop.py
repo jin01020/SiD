@@ -475,7 +475,7 @@ def training_loop(
             #p_ema.copy_(p_true_score.detach().lerp(p_ema, ema_beta))
             p_ema.lerp_(p_true_score.detach(), 1-ema_beta)
 
-
+        """
         if measure_timing and iter_cnt <= 12:
             iter_end_time = time.time()
             iter_duration = iter_end_time - m_iter_start_time
@@ -517,7 +517,7 @@ def training_loop(
 
                 measure_timing = False  # 측정 완료 후 비활성화
 
-
+        """
 
 
         # Perform maintenance tasks once per tick.
