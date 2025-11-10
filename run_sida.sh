@@ -23,7 +23,7 @@ if [ "$dataset" = 'cifar10-uncond' ]; then
     --alpha 1 \
     --tmax 800 \
     --init_sigma 2.5 \
-    --batch 256 \
+    --batch 128 \
     --batch-gpu 32 \
     --data '/131_data/jin0/edm_datasets/cifar10.zip' \
     --outdir '/131_data/jin0/cfm_sid/cifar10-uncond' \
