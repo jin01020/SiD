@@ -147,8 +147,8 @@ elif [ "$dataset" = 'imagenet64-cond' ]; then
     --dropout 0.1 \
     --augment 0 \
     --ema 2 \
-    --duration 300 
-    #--sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/imagenet64/alpha1.2/network-snapshot-1.200000-939176.pkl'
+    --duration 300 \
+    --sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/imagenet64/alpha1.2/network-snapshot-1.200000-939176.pkl'
     
 elif [ "$dataset" = 'ffhq64' ]; then
     torchrun --standalone --nproc_per_node=4 sida_train.py \
