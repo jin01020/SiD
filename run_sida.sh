@@ -32,8 +32,8 @@ if [ "$dataset" = 'cifar10-uncond' ]; then
     --arch ddpmpp \
     --edm_model cifar10-uncond \
     --detector_url 'https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metrics/inception-2015-12-05.pt' \
-    --tick 10 \
-    --snap 50 \
+    --tick 5 \
+    --snap 20 \
     --dump 200 \
     --lr 1e-5 \
     --glr 1e-5 \
@@ -96,8 +96,8 @@ elif [ "$dataset" = 'cifar10-cond' ]; then
     --arch ddpmpp \
     --edm_model cifar10-cond \
     --detector_url 'https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metrics/inception-2015-12-05.pt' \
-    --tick 10 \
-    --snap 50 \
+    --tick 5 \
+    --snap 20 \
     --dump 200 \
     --lr 1e-5 \
     --glr 1e-5 \
@@ -129,8 +129,8 @@ elif [ "$dataset" = 'imagenet64-cond' ]; then
     --arch adm \
     --edm_model imagenet64-cond \
     --detector_url 'https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metrics/inception-2015-12-05.pt' \
-    --tick 20 \
-    --snap 50 \
+    --tick 5 \
+    --snap 20 \
     --dump 200 \
     --lr 4e-6 \
     --glr 4e-6 \
