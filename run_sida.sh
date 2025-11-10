@@ -25,9 +25,9 @@ if [ "$dataset" = 'cifar10-uncond' ]; then
     --init_sigma 2.5 \
     --batch 256 \
     --batch-gpu 32 \
-    --data '/data/datasets/cifar10-32x32.zip'  \
-    --outdir '/data/image_experiment/sida-train-runs/cifar10-uncond' \
-    --resume '/data/image_experiment/sida-train-runs/cifar10-uncond' \
+    --data '/131_data/jin0/edm_datasets/cifar10.zip' \
+    --outdir '/131_data/jin0/cfm_sid/cifar10-uncond' \
+    --resume '/131_data/jin0/cfm_sid/cifar10-uncond' \
     --nosubdir 0 \
     --arch ddpmpp \
     --edm_model cifar10-uncond \
@@ -46,8 +46,8 @@ if [ "$dataset" = 'cifar10-uncond' ]; then
     --data_stat 'https://nvlabs-fi-cdn.nvidia.com/edm/fid-refs/cifar10-32x32.npz' \
     --use_gan 1 \
     --metrics fid50k_full,is50k \
-    --save_best_and_last 1 
-    # --sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/cifar10-uncond/alpha1.2/network-snapshot-1.200000-403968.pkl'
+    --save_best_and_last 1 \
+    --sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/cifar10-uncond/alpha1.2/network-snapshot-1.200000-403968.pkl'
     
     #torchrun --standalone --nproc_per_node=4 sida_train.py \
     # --alpha 1 \                            # Scaling factor for gradient-bias correction in SiD
@@ -87,11 +87,11 @@ elif [ "$dataset" = 'cifar10-cond' ]; then
     --alpha 1 \
     --tmax 800 \
     --init_sigma 2.5 \
-    --batch 256 \
+    --batch 128 \
     --batch-gpu 32 \
-    --data '/data/datasets/cifar10-32x32.zip'  \
-    --outdir '/data/image_experiment/sida-train-runs/cifar10-cond' \
-    --resume '/data/image_experiment/sida-train-runs/cifar10-cond' \
+    --data '/131_data/jin0/edm_datasets/cifar10.zip'  \
+    --outdir '/131_data/jin0/cfm_sid/cifar10-cond' \
+    --resume '/131_data/jin0/cfm_sid/cifar10-cond' \
     --nosubdir 0 \
     --arch ddpmpp \
     --edm_model cifar10-cond \
@@ -110,8 +110,8 @@ elif [ "$dataset" = 'cifar10-cond' ]; then
     --data_stat 'https://nvlabs-fi-cdn.nvidia.com/edm/fid-refs/cifar10-32x32.npz' \
     --use_gan 1 \
     --metrics fid50k_full \
-    --save_best_and_last 1 
-    #--sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/cifar10-cond/alpha1.2/network-snapshot-1.200000-713312.pkl'
+    --save_best_and_last 1 \
+    --sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/cifar10-cond/alpha1.2/network-snapshot-1.200000-713312.pkl'
 
     
 elif [ "$dataset" = 'imagenet64-cond' ]; then
@@ -147,8 +147,8 @@ elif [ "$dataset" = 'imagenet64-cond' ]; then
     --dropout 0.1 \
     --augment 0 \
     --ema 2 \
-    --duration 300 
-    #--sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/imagenet64/alpha1.2/network-snapshot-1.200000-939176.pkl'
+    --duration 300 \
+    --sid_model 'https://huggingface.co/UT-Austin-PML/SiD/resolve/main/imagenet64/alpha1.2/network-snapshot-1.200000-939176.pkl'
     
 elif [ "$dataset" = 'ffhq64' ]; then
     torchrun --standalone --nproc_per_node=4 sida_train.py \

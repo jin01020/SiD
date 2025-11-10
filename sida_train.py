@@ -23,6 +23,7 @@ from sida_training import sida_training_loop as training_loop
 import warnings
 warnings.filterwarnings('ignore', 'Grad strides do not match bucket view strides') # False warning printed by PyTorch 1.12.
 
+import wandb
 #----------------------------------------------------------------------------
 # Parse a comma separated list of numbers or ranges and return a list of ints.
 # Example: '1,2,5-10' returns [1, 2, 5, 6, 7, 8, 9, 10]
@@ -353,6 +354,21 @@ paper "Adversarial Score Identity Distillation: Rapidly Surpassing the Teacher i
     
     
     c.detector_url=opts.detector_url
+
+
+
+    project = ""
+    if 'cifar10' in opts.data:
+        project = 'cifar10'
+    elif 'imagenet' in opts.data:
+        project = 'imagenet'
+    if opts.cond:
+        project = project+"_cond"
+    if dist.get_rank() == 0:
+        wandb.init(config=c, entity="jin01020", project="cfm_edm_"+project, name=desc)
+
+
+
 
     # Print options.
     dist.print0()

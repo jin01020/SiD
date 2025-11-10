@@ -396,7 +396,7 @@ def training_loop(
         fake_score_optimizer.step()
         fake_score_optimizer.zero_grad(set_to_none=True)
 
-        
+        """
         if measure_timing and iter_cnt <= 12:
             m_iter_end_time = time.time()
             iter_duration = m_iter_end_time - iter_start_time
@@ -421,7 +421,7 @@ def training_loop(
                 #measure_timing = False  # 측정 완료 후 비활성화
 
         m_iter_start_time = m_iter_end_time 
-
+        """
         #Update generator G_theta
         G_ddp.train().requires_grad_(True)
         g_optimizer.zero_grad(set_to_none=True)
