@@ -5,7 +5,7 @@ from tqdm import tqdm
 from utils import (
     parse_arguments,  # Make sure this imports your parser
 )
-from models import prepare_condition_loader, prepare_stuff
+#from models import prepare_condition_loader, prepare_stuff
 import time
 import numpy as np
 import PIL.Image
@@ -276,6 +276,7 @@ def main(args):
 
     # --- 3. Load Prompts ---
     # (프롬프트는 HPS/CLIP 또는 이미지 매칭에 필요할 수 있으므로 항상 로드)
+    """
     wrapped_model, model, decoding_fn, noise_schedule, latent_resolution, latent_channel, _, _, encoding_fn = prepare_stuff(args)
     condition_loader = prepare_condition_loader(model_type=args.model, 
                                                 model=model,
@@ -292,7 +293,7 @@ def main(args):
     if not hasattr(args, 'data_dir') or not args.data_dir:
         print("Error: --data_dir argument is required.")
         sys.exit(1)
-        
+    """    
     data_dir = args.data_dir
     image_files = sorted(glob.glob(os.path.join(data_dir, "*.png")))
     
@@ -304,22 +305,22 @@ def main(args):
 
     # --- 5. Match Prompts to Images ---
     num_images = len(image_files)
-    num_prompts = len(all_prompts)
+    #num_prompts = len(all_prompts)
 
-    if num_images > num_prompts:
-        print(f"Warning: Found {num_images} images but only {num_prompts} prompts. Truncating to {num_prompts} images.")
-        image_files = image_files[:num_prompts]
-    elif num_prompts > num_images:
-        print(f"Warning: Found {num_images} images but {num_prompts} prompts. Truncating to {num_images} prompts.")
-        all_prompts = all_prompts[:num_images]
+    # if num_images > num_prompts:
+    #     print(f"Warning: Found {num_images} images but only {num_prompts} prompts. Truncating to {num_prompts} images.")
+    #     image_files = image_files[:num_prompts]
+    # elif num_prompts > num_images:
+    #     print(f"Warning: Found {num_images} images but {num_prompts} prompts. Truncating to {num_images} prompts.")
+    #     all_prompts = all_prompts[:num_images]
         
     num_to_process = len(image_files)
     
-    if hasattr(args, 'total_samples') and args.total_samples < num_to_process:
-        print(f"Limiting to first {args.total_samples} samples as requested.")
-        num_to_process = args.total_samples
-        image_files = image_files[:num_to_process]
-        all_prompts = all_prompts[:num_to_process]
+    # if hasattr(args, 'total_samples') and args.total_samples < num_to_process:
+    #     print(f"Limiting to first {args.total_samples} samples as requested.")
+    #     num_to_process = args.total_samples
+    #     image_files = image_files[:num_to_process]
+    #     all_prompts = all_prompts[:num_to_process]
 
     # --- 6. Setup Batching & Dirs ---
     if not hasattr(args, 'sampling_batch_size'):
@@ -360,7 +361,7 @@ def main(args):
         end_idx = min((batch_idx + 1) * args.sampling_batch_size, num_to_process)
 
         batch_image_paths = image_files[start_idx:end_idx]
-        batch_prompts = all_prompts[start_idx:end_idx]
+        #batch_prompts = all_prompts[start_idx:end_idx]
         
         batch_pil_images = []
         valid_prompts = []
@@ -369,7 +370,7 @@ def main(args):
         for i, img_path in enumerate(batch_image_paths):
             try:
                 batch_pil_images.append(PIL.Image.open(img_path).convert("RGB"))
-                valid_prompts.append(batch_prompts[i]) # Only add prompt if image loads
+                #valid_prompts.append(batch_prompts[i]) # Only add prompt if image loads
             except Exception as e:
                 print(f"Warning: Failed to load {img_path}, skipping. Error: {e}")
         
